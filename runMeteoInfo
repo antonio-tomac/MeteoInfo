@@ -1,0 +1,3 @@
+#!/bin/bash
+export MAVEN_OPTS=-Xmx16m
+nohup mvn exec:java -Dexec.mainClass="com.tomac.meteoinfo.App" &> meteoInfo.log &
