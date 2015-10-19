@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDateTime;
 
 /**
  * Hello world!
@@ -41,12 +41,12 @@ public class App {
 		List<Integer> hoursWhenCheck = Arrays.asList(0, 8, 16);
 		DataFetcher dataFetcher = new MeteoInfoDataFetcher();
 		while (true) {
-			long currentTime = System.currentTimeMillis()+1000*430;
+			long currentTime = System.currentTimeMillis();
 			long timeNextFullHour = currentTime - currentTime % (1000L * 3600) + 1000L * 3600;
 			long sleepTime = timeNextFullHour - currentTime;
 			System.out.println("Sleeping for " + (sleepTime / 1000.) + " seconds...");
 			Thread.sleep(sleepTime);
-			DateTime dateTime = new DateTime(timeNextFullHour, DateTimeZone.forID("Europe/Zagreb"));
+			LocalDateTime dateTime = new LocalDateTime(timeNextFullHour, DateTimeZone.forID("Europe/Zagreb"));
 			if (hoursWhenCheck.contains(dateTime.getHourOfDay())) {
 				System.out.println("Processing time: " + dateTime);
 				process(dataFetcher, filter, emails);
