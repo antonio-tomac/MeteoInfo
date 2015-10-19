@@ -13,10 +13,6 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 public class AlertTrigger {
 
 	private static final String from = "kite-forecast@mediatoolkit.com";
-	private static final String[] emails = new String[]{
-		"3007maks@gmail.com",
-		"antonio.tomac1989@gmail.com"
-	};
 	
 	private static final DateTimeFormatter timeFormat = new DateTimeFormatterBuilder()
 			.appendPattern("dd.MM.yyyy. HH:mm").toFormatter();
@@ -35,7 +31,7 @@ public class AlertTrigger {
 		return "<table border=\"1px\">" + rows + "</table>";
 	}
 
-	public static void emailNotification(Filter filter, DayTimeInfo... dayTimeInfos) {
+	public static void emailNotification(String[] emails, Filter filter, DayTimeInfo... dayTimeInfos) {
 		String title = "Possible kitting action";
 		String table = toTable(dayTimeInfos);
 				
@@ -55,10 +51,6 @@ public class AlertTrigger {
 			throw new RuntimeException(ex);
 		}
 		System.out.println("sent sucessfully");
-	}
-	
-	public static void main(String[] args) {
-		emailNotification(com.tomac.meteoinfo.filter.WindFilter.ANY_SPEED);
 	}
 
 }
