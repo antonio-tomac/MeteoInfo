@@ -8,6 +8,7 @@ import com.tomac.meteoinfo.filter.AndFilter;
 import com.tomac.meteoinfo.filter.DayFilter;
 import com.tomac.meteoinfo.filter.DayFilter.Day;
 import com.tomac.meteoinfo.filter.Filter;
+import com.tomac.meteoinfo.filter.NotFilter;
 import com.tomac.meteoinfo.filter.OrFilter;
 import com.tomac.meteoinfo.filter.PecritipationFilter;
 import com.tomac.meteoinfo.filter.TimeFilter;
@@ -36,6 +37,9 @@ public class App {
 				OrFilter.anyOf(
 						TimeFilter.fromTo(18, 23),
 						DayFilter.forDays(Day.SATURDAY, Day.SUNDAY)
+				),
+				NotFilter.not(
+						DayFilter.forDays(Day.WEDNESDAY)
 				)
 		);
 		List<Integer> hoursWhenCheck = Arrays.asList(0, 8, 16);
@@ -58,7 +62,7 @@ public class App {
 		MeteoData meteoData = dataFetcher.getMeteoData();
 		List<DayTimeInfo> matching = new LinkedList<>();
 		for (DayTimeInfo dayTimeInfo : meteoData.getDayInfos().values()) {
-			if (filter.matchesDayInfo(dayTimeInfo)) {
+			if (dayTimeInfo.getWind() >= 4.0 && dayTimeInfo.getDateTime().getHourOfDay() == 18) {
 				matching.add(dayTimeInfo);
 				System.out.println(dayTimeInfo);
 			}
